@@ -1470,6 +1470,8 @@ sub user_edit : Path('user_edit') : Args(1) {
         $c->forward('user_hide_everywhere', [ $user ]);
     } elsif ( $c->get_param('submit') and $c->get_param('remove_account') ) {
         $c->forward('user_remove_account', [ $user ]);
+    } elsif ( $c->get_param('submit') and $c->get_param('send_login_email') ) {
+        $c->forward('send_login_email', [ $user ]);
     } elsif ( $c->get_param('submit') ) {
 
         my $edited = 0;
@@ -1882,6 +1884,31 @@ sub user_hide_everywhere : Private {
         $update->hide;
     }
     $c->stash->{status_message} = _('That user’s reports and updates have been hidden.');
+}
+
+sub send_login_email : Private {
+    my ( $self, $c, $user ) = @_;
+
+    my $token_data = {
+        r => '/my',
+        email => $user->email,
+        name => $user->name,,
+        password => $user->password,
+    };
+
+    my $token_obj = $c->model('DB::Token')->create({
+        scope => 'email_sign_in',
+        data  => $token_data,
+    });
+
+    $c->stash->{token} = $token_obj->token;
+    my $template = 'login.txt';
+
+    # do not use relative URIs in the email, obvs.
+    $c->uri_disposition('absolute');
+    $c->send_email( $template, { to => $user->email } );
+
+    $c->stash->{status_message} = _('The user has been sent a login email');
 }
 
 # Anonymize and remove name from all problems/updates, disable all alerts.

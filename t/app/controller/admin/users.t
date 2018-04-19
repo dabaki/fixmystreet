@@ -401,6 +401,31 @@ FixMyStreet::override_config {
 
 $user = $mech->create_user_ok('test@example.com', name => 'Test User');
 
+subtest "Send login email from admin" => sub {
+    $mech->email_count_is(0);
+    $mech->get_ok( '/admin/user_edit/' . $user->id );
+    $mech->submit_form_ok(
+        {
+            button => 'send_login_email'
+        },
+        "send login email form submitted"
+    );
+
+    my $email = $mech->get_email;
+    ok $email, "got an email";
+
+    is $email->header('Subject'), "Your FixMyStreet account details",
+      "subject is correct";
+    is $email->header('To'), $user->email, "to is correct";
+
+    my $link = $mech->get_link_from_email($email);
+
+    my $mech2 = FixMyStreet::TestMech->new;
+    $mech2->not_logged_in_ok;
+    $mech2->get_ok($link);
+    $mech2->logged_in_ok;
+};
+
 subtest "Anonymizing user from admin" => sub {
     $mech->create_problems_for_body(4, 2237, 'Title');
     my $count_p = FixMyStreet::DB->resultset('Problem')->search({ user_id => $user->id })->count;
