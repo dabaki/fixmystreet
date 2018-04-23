@@ -17,7 +17,9 @@
           <input type='text' class="form-control" name='name' id='name' value='[% user.name | html %]'>
         </li>
         <li><label for="email">[% loc('Email:') %]</label>
-        <input type='text' class="form-control" id='email' name='email' value='[% user.email | html %]'></li>
+        <input type='text' class="form-control" id='email' name='email' value='[% user.email | html %]'>
+        <input class="btn" type="submit" name="send_login_email" value="[% loc('Send login email') %]">
+        </li>
         <li><label class="inline" for="email_verified">[% loc('Email verified:') %]</label>
         <input type="checkbox" id="email_verified" name="email_verified" value="1" [% user.email_verified ? ' checked' : '' %]>
         <li><label for="phone">[% loc('Phone:') %]</label>
@@ -189,9 +191,6 @@
     </ul>
     <p>
       <input type="submit" class="btn" name="Submit changes" value="[% loc('Submit changes') %]" >
-    </p>
-    <p>
-      <input class="btn" type="submit" name="send_login_email" value="[% loc('Send login email') %]">
     </p>
 
   [% IF user AND NOT user.from_body %]
