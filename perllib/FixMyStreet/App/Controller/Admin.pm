@@ -1890,10 +1890,7 @@ sub send_login_email : Private {
     my ( $self, $c, $user ) = @_;
 
     my $token_data = {
-        r => '/my',
         email => $user->email,
-        name => $user->name,,
-        password => $user->password,
     };
 
     my $token_obj = $c->model('DB::Token')->create({
