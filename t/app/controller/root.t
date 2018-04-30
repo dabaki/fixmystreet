@@ -75,16 +75,17 @@ FixMyStreet::override_config {
 };
 
 subtest "check_login_disallowed cobrand hook" => sub {
+    warn '#' x 50 . "\n";
     my $cobrand = Test::MockModule->new('FixMyStreet::Cobrand::Default');
     $cobrand->mock('check_login_disallowed', sub {
+            my $self = shift;
+            return 0 if $self->{c}->req->path eq 'auth';
             return 1;
         }
     );
 
-    $mech->get('/');
-    is $mech->status, 302, 'disallowed page issues a redirect';
-    is $mech->res->headers->header('location'), 'http://localhost/auth?r=auth', 'redirects to auth page';
-    $mech->content_contains('This item has moved');
+    $mech->get_ok('/');
+    is $mech->uri->path_query, '/auth?r=', 'redirects to auth page';
 };
 
 done_testing();
