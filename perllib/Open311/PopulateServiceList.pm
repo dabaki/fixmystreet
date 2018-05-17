@@ -248,6 +248,26 @@ sub _add_meta_to_contact_cobrand_overrides {
 
     if ($self->_current_body->name eq 'Bromley Council') {
         $contact->set_extra_metadata( id_field => 'service_request_id_ext');
+        # Lights we want to store central asset ID.
+        # Also PROW on all categories for the moment. XXX
+        push @$meta, {
+            code => 'prow_reference',
+            datatype => 'string',
+            description => 'Right of way reference',
+            order => 101,
+            required => 'false',
+            variable => 'true',
+            automated => 'hidden_field',
+        };
+        push @$meta, {
+            code => 'central_asset_id',
+            datatype => 'string',
+            description => 'Central asset ID',
+            order => 100,
+            required => 'false',
+            variable => 'true',
+            automated => 'hidden_field',
+        } if $self->_current_service->{service_code} eq 'LIGHTS';
     } elsif ($self->_current_body->name eq 'Warwickshire County Council') {
         $contact->set_extra_metadata( id_field => 'external_id');
     }
