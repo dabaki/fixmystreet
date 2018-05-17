@@ -42,6 +42,7 @@
         - Make OpenGraph description translatable.
         - Stop double-escaping title in alert-update email.
         - Use inspection states in response template admin.
+        - Ignore non-interactive layers for asset message.
     - Admin improvements:
         - Inspectors can set non_public status of reports. #1992
         - Default start date is shown on the dashboard.
