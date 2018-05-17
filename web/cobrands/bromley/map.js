@@ -22,6 +22,7 @@ var defaults = {
     min_resolution: 0.5971642833948135,
     asset_id_field: 'CENTRAL_AS',
     attributes: {
+        prow_reference: 'PROW_REFER',
         central_asset_id: 'CENTRAL_AS',
         site_code: 'SITE_CODE'
     },
@@ -129,7 +130,17 @@ fixmystreet.assets.add($.extend(true, {}, defaults, {
     },
     stylemap: prow_stylemap,
     always_visible: true,
-    non_interactive: true
+    non_interactive: true,
+    road: true,
+    all_categories: true,
+    actions: {
+        found: function(layer, feature) {
+            $('#form_prow_reference').val(feature.attributes.PROW_REFER);
+        },
+        not_found: function(layer) {
+            $('#form_prow_reference').val('');
+        }
+    }
 }));
 
 })();
