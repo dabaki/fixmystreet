@@ -1,0 +1,113 @@
+@import '../theme/sass/global';
+
+/*
+ * There's a conflict here with the what the FMS docs and the FMS pro site do
+ * the mySociety standard header - the following resets a lot of this
+ */
+
+ $pro-yellow: #FED876;
+
+ .ms-header {
+     border: 0;
+ }
+
+.ms-header__logo {
+    
+    border-radius: 0;
+    background-position: 0 0;
+    background-size: 0 0 ;
+    background-repeat: no-repeat;
+    background-image: none;
+    width: auto;
+    height: auto;
+    display: block;
+    position: static;
+    right: auto;
+    top: auto;
+    background-color:  transparent;
+    background-repeat: no-repeat;
+    margin: 10px 0;
+}
+
+.site-header {
+    background-color: white;
+    padding: 0;
+    border: 0;
+}
+
+.page-wrapper--pro {
+    background-color: #fff;
+    padding-bottom: 3em;
+}
+
+h4 {
+    text-transform: none;
+}
+
+.boxout {
+    background-color: $colour_off_white;
+    padding: 0.5em 1.5em 1.5em;
+    margin-bottom: 2em;
+    font-size: 0.875em;
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.boxout__title {
+    text-transform: none;
+    line-height: 1.25em;
+    font-size: 1.125em;
+}
+
+.pro-task {
+    border: 1px solid #ddd;
+    padding: 0 24px 1em;
+    margin: 2.5em 0;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    h3 {
+        background-color: $pro-yellow;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+        padding: 0.66em 24px;
+        margin: 0 -24px 1em;
+    }
+
+    > h4 {
+        padding: 1em 0 0;
+    }
+
+    .boxout {
+        margin-top: 1.5em;
+    }
+
+    
+}
+
+.pro-task__permissions {
+    color: $colour_green_dark_2;
+    font-size: 0.875em;
+    line-height: 1.4em;
+}
+
+.sidebar {
+    margin-top: 5.3em;
+    li {
+        margin-bottom: 0.5em;
+        line-height: 1.35em;
+        li:first-of-type > a {
+            margin-top: 0.5em;
+        }
+    }
+    a {
+        display: inline-block;
+    }
+}
+
+.pro-screenshot {
+    display: block;
+    margin: 1em auto;
+    padding: 0.5em;
+    border: 3px solid $colour_borders;
+}
