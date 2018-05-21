@@ -10,6 +10,8 @@ sub council_area { return 'Bromley'; }
 sub council_name { return 'Bromley Council'; }
 sub council_url { return 'bromley'; }
 
+sub enable_category_groups { 1 }
+
 sub base_url {
     my $self = shift;
     return $self->next::method() if FixMyStreet->config('STAGING_SITE');
@@ -114,11 +116,19 @@ sub open311_config {
     my ($self, $row, $h, $params) = @_;
 
     my $extra = $row->get_extra_fields;
+    my $title = $row->title;
+
+    foreach (@$extra) {
+        $title .= ' | ID: ' . $_->{value} if $_->{name} eq 'central_asset_id';
+        $title .= ' | PROW ID: ' . $_->{value} if $_->{name} eq 'prow_reference';
+    }
+    @$extra = grep { $_->{name} !~ /central_asset_id|prow_reference/ } @$extra;
+
     push @$extra,
         { name => 'report_url',
           value => $h->{url} },
         { name => 'report_title',
-          value => $row->title },
+          value => $title },
         { name => 'public_anonymity_required',
           value => $row->anonymous ? 'TRUE' : 'FALSE' },
         { name => 'email_alerts_requested',
